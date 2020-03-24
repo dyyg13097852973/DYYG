@@ -1,0 +1,38 @@
+{
+	"release": {
+		"version": "1.1.1.1",
+		"LoginType": true,
+		"newVersionUrl": "http://dwn001.dyyg888.com/",
+                "OfficialNewVersionUrl":"",
+		"iosUrl": "",
+
+		"gameSiteURLRoot": "server001.didi7869.com",
+		"mainDomin": "chat.hmscmj.com",
+		"approvalLoginIP": "43.243.131.223:8989",
+		"approvalLogicIP": "43.243.131.223:8989",
+		"loginIP": "43.243.131.223:8989",
+		"logicIP": "43.243.131.223:8989",
+		"LoginPort": 7810,
+		"stopPlatform": "",
+		"closerServer" : "",
+		"serverPort": 7510,
+		"announcement" :"",
+		"RateOfExchange":16500,
+		"wxPayCode":"xianx",
+		"aliPayCode":"xianx",			
+        		"WXID":"",
+		"checkCode":"https://api001.dyyg999.com/api/Sms/send",
+		"checkCode2":"https://api001.dyyg999.com/api/Sms/send",	
+		"shareCode":"https://w.url.cn/s/AM5g1a3", 
+		"reqQRCode":"https://api001.dyyg999.com/com/Qrcode/getAdUserShortUrl?uid=", 
+		"ServiceURL":"https://us.365webcall.com/chat/chatwin3.aspx?settings=mw7mPmXN0m660060z3Am66wwIIz3Am66ww07z3AX6mmm7",
+                	"GetIpByUrl":"https://api001.dyyg999.com/Api/Ip/getIp",
+		"assetBundleRootURL":["https://alhkoss1.oss-accelerate.aliyuncs.com/NewTaoJin/"],
+		"assetBundleRootURLGlobal":["https://alhkoss1.oss-accelerate.aliyuncs.com/NewTaoJin/","https://alhkoss1.oss-accelerate.aliyuncs.com/NewTaoJin/"],
+			"chatWebUrl":"https://us.365webcall.com/chat/chatwin3.aspx?settings=mw7mPmXN0m660060z3Am66wwIIz3Am66ww07z3AX6mmm7&memberid={0}&name={1}&phone={2}",
+		"reg_api_url":"https://api001.dyyg999.com/Api/user/Register",
+		"ServerCallBack":"http://43.243.131.223:9090/CoupleBack",
+		"payUrl":"https://pay01.kg01.cc/Payment/hengtong/createPayment?paymentId=1&uid="
+	}
+	
+}
