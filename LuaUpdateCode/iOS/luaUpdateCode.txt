@@ -1,0 +1,88 @@
+
+xlua.hotfix(CS.MainPageWindow, 'SmallNoticeOnClick', function(self,go)
+	if self.curNoticeIndex == 0 then
+		CS.UniClipboard.SetText("www.dyyg777.com");
+		CS.UIManager.Ins:ShowAlert("复制成功");
+	elseif self.curNoticeIndex == 1 then
+		CS.UIManager.Ins:Show(CS.NotiConst.M_SevenDay);
+	else
+		CS.UIManager.Ins:Show(CS.NotiConst.M_ROTATEPLATE);
+	end
+end)
+
+xlua.hotfix(CS.MainPageWindow, 'NoticeContent', function(self)
+	local table t = {"www.dyyg777.com  \n复制官网","连续签到送福利红包，更有幸运抽奖活动呦！","新年转盘，奖励全面升级，点击抢礼物"};
+	return t;
+end)
+
+xlua.hotfix(CS.BaccaratWindow, 'GetRandomAIPlayerId', function(self)	   
+	if (self.roomPlayerList == null or self.roomPlayerList.Count == 0) then            
+		return -1;        
+	end
+	local randPlayer = 0;
+	if self.allPlayerUserId.Count ~= 0 then
+		randPlayer = math.random(0, self.allPlayerUserId.Count - 1);
+	end
+	
+	local playerId = self.allPlayerUserId[randPlayer];
+	
+	local tableTemp = self.allPlayerUserId;
+	      
+
+	if (playerId >= 60000) then                
+		playerId = -1;        
+	end             
+	local v = math.random(0, 100);        
+	if (v <= 95) then                   
+		playerId = -1;        
+	end        
+	return playerId;	
+end)
+
+xlua.hotfix(CS.HHDZWindow, 'UpdateShowChipsNums', function(self,items,isAdd)
+	local userid = items.iPlayerID;
+    local chips = items.stChips.iLongValue;
+    local chipstype = items.iChipsType;
+    local addvalue = chips;
+    if isAdd == false then
+        addvalue = (-chips);
+    end
+	local tmpinfo = self:GetPlayerInfo(userid);
+	
+    if tmpinfo ~= nil then
+        tmpinfo:ChangeChipsCount (-addvalue); --别人坐下下注的时候不更新头像数据，在结算的时候统一加减
+		
+		if (self.MyUserID == userid) then  --我坐下了
+         
+            self:UpdateMyTotalChipsShow (self.Mytotal);
+            self.myChipRecord[chipstype] = self.myChipRecord[chipstype]+ addvalue;
+				
+            for i = 0, self.myChipRecord.Length - 1,1 do 
+                self.txt_myBettingList[i].gameObject:SetActive (self.myChipRecord[i] > 0);
+                self.txt_myBettingList[i].text = CS.BaccaratUtil.FormatNumsShow (self.myChipRecord[i]);
+            end							
+            
+		end
+    end	   
+	
+	local myid = self.MyUserID;
+	
+	if myid == userid and teminfo ~= nil then
+		self:UpdateMyTotalChipsShow(self.Mytotal - addvalue);
+		self.myChipRecord[chipstype] = self.myChipRecord[chipstype] + addvalue;
+		
+		 for i = 0, self.myChipRecord.Length - 1,1 do 
+            self.txt_myBettingList[i].gameObject:SetActive (self.myChipRecord[i] > 0);
+            self.txt_myBettingList[i].text = CS.BaccaratUtil.FormatNumsShow (self.myChipRecord[i]);
+        end		
+	end
+	self.allChipRecord[chipstype] =  self.allChipRecord[chipstype] + addvalue;
+	
+	for i = 0, self.allChipRecord.Length - 1,1 do 
+        if self.allChipRecord[i] > 0 then
+			self.txt_xiazhuList[i].text = CS.BaccaratUtil.FormatNumsShow (self.allChipRecord[i]);
+		else
+			self.txt_xiazhuList[i].text = string.Empty;
+		end
+    end		
+end)

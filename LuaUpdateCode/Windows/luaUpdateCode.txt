@@ -1,0 +1,256 @@
+
+xlua.hotfix(CS.MainPageWindow, 'SmallNoticeOnClick', function(self,go)
+	if self.curNoticeIndex == 0 then
+		CS.UniClipboard.SetText("www.dyyg777.com");
+		CS.UIManager.Ins:ShowAlert("复制成功");
+	elseif self.curNoticeIndex == 1 then
+		CS.UIManager.Ins:Show(CS.NotiConst.M_SevenDay);
+	else
+		CS.UIManager.Ins:Show(CS.NotiConst.M_ROTATEPLATE);
+	end
+end)
+
+xlua.hotfix(CS.MainPageWindow, 'NoticeContent', function(self)
+	local table t = {"www.dyyg777.com  \n复制官网","连续签到送福利红包，更有幸运抽奖活动呦！","新年转盘，奖励全面升级，点击抢礼物"};
+	return t;
+end)
+
+xlua.hotfix(CS.BaccaratWindow, 'GetRandomAIPlayerId', function(self)	   
+	if (self.roomPlayerList == null or self.roomPlayerList.Count == 0) then            
+		return -1;        
+	end
+	local randPlayer = 0;
+	if self.allPlayerUserId.Count ~= 0 then
+		randPlayer = math.random(0, self.allPlayerUserId.Count - 1);
+	end
+	
+	local playerId = self.allPlayerUserId[randPlayer];
+	
+	local tableTemp = self.allPlayerUserId;
+	      
+
+	if (playerId >= 60000) then                
+		playerId = -1;        
+	end             
+	local v = math.random(0, 100);        
+	if (v <= 95) then                   
+		playerId = -1;        
+	end        
+	return playerId;	
+end)
+
+xlua.hotfix(CS.HHDZWindow, 'UpdateShowChipsNums', function(self,items,isAdd)
+	local userid = items.iPlayerID;
+    local chips = items.stChips.iLongValue;
+    local chipstype = items.iChipsType;
+    local addvalue = chips;
+    if isAdd == false then
+        addvalue = (-chips);
+    end
+	local tmpinfo = self:GetPlayerInfo(userid);
+
+    if tmpinfo ~= nil then
+        tmpinfo:ChangeChipsCount (-addvalue); --别人坐下下注的时候不更新头像数据，在结算的时候统一加减
+		
+		if (self.MyUserID == userid) then  --我坐下了
+			
+            self:UpdateMyTotalChipsShow (self.Mytotal);
+            self.myChipRecord[chipstype] = self.myChipRecord[chipstype]+ addvalue;
+				
+            for i = 0, self.myChipRecord.Length - 1,1 do 
+                self.txt_myBettingList[i].gameObject:SetActive (self.myChipRecord[i] > 0);
+                self.txt_myBettingList[i].text = CS.BaccaratUtil.FormatNumsShow (self.myChipRecord[i]);
+            end							
+            
+		end
+    end	   
+	
+	local myid = self.MyUserID;
+	
+	if myid == userid and teminfo == nil then
+		self:UpdateMyTotalChipsShow(self.Mytotal - addvalue);
+		self.myChipRecord[chipstype] = self.myChipRecord[chipstype] + addvalue;
+		
+		 for i = 0, self.myChipRecord.Length - 1,1 do 
+            self.txt_myBettingList[i].gameObject:SetActive (self.myChipRecord[i] > 0);
+            self.txt_myBettingList[i].text = CS.BaccaratUtil.FormatNumsShow (self.myChipRecord[i]);
+        end		
+	end
+	self.allChipRecord[chipstype] =  self.allChipRecord[chipstype] + addvalue;
+	
+	for i = 0, self.allChipRecord.Length - 1,1 do 
+        if self.allChipRecord[i] > 0 then
+			self.txt_xiazhuList[i].text = CS.BaccaratUtil.FormatNumsShow (self.allChipRecord[i]);
+		else
+			self.txt_xiazhuList[i].text = string.Empty;
+		end
+    end		
+end)
+
+xlua.hotfix(CS.DragonTigerWindow, 'UpdateShowChipsNums', function(self,items,isAdd)
+	local userid = items.iPlayerID;
+    local chips = items.stChips.iLongValue;
+    local chipstype = items.iChipsType;
+    local addvalue = chips;
+    if isAdd == false then
+        addvalue = (-chips);
+    end
+	local tmpinfo = self:GetPlayerInfo(userid);
+	
+    if tmpinfo ~= nil then
+        tmpinfo:ChangeChipsCount (-addvalue); --别人坐下下注的时候不更新头像数据，在结算的时候统一加减
+		
+		if (self.MyUserID == userid) then  --我坐下了
+         
+            self:UpdateMyTotalChipsShow (self.Mytotal);
+            self.myChipRecord[chipstype] = self.myChipRecord[chipstype]+ addvalue;
+				
+            for i = 0, self.myChipRecord.Length - 1,1 do 
+                self.txt_myBettingList[i].gameObject:SetActive (self.myChipRecord[i] > 0);
+                self.txt_myBettingList[i].text = CS.BaccaratUtil.FormatNumsShow (self.myChipRecord[i]);
+            end							
+            
+		end
+    end	   
+	
+	local myid = self.MyUserID;
+	
+	if myid == userid and teminfo == nil then
+		self:UpdateMyTotalChipsShow(self.Mytotal - addvalue);
+		self.myChipRecord[chipstype] = self.myChipRecord[chipstype] + addvalue;
+		
+		 for i = 0, self.myChipRecord.Length - 1,1 do 
+            self.txt_myBettingList[i].gameObject:SetActive (self.myChipRecord[i] > 0);
+            self.txt_myBettingList[i].text = CS.BaccaratUtil.FormatNumsShow (self.myChipRecord[i]);
+        end		
+	end
+	self.allChipRecord[chipstype] =  self.allChipRecord[chipstype] + addvalue;
+	
+	for i = 0, self.allChipRecord.Length - 1,1 do 
+        if self.allChipRecord[i] > 0 then
+			self.txt_xiazhuList[i].text = CS.BaccaratUtil.FormatNumsShow (self.allChipRecord[i]);
+		else
+			self.txt_xiazhuList[i].text = string.Empty;
+		end
+    end		
+end)
+
+xlua.hotfix(CS.TaskWindow,
+	
+
+{
+	CloseWin = function(self,obj)
+		CS.UIManager.Ins:Hide(CS.NotiConst.M_Task);		
+	end;
+	
+	GetAwake = function(self,taskID)
+		CS.RedPointUtil.taskPoint = 0;
+		for i = 0,self.itemList.Count -1,1 do 
+			if self.itemList[i].TaskID == taskID then
+				itemList[i]:GetAwake();
+			end
+			if itemList[i].currentItem.itaskState == 1 then
+				CS.RedPointUtil.taskPoint = 1;
+			end
+		end
+		cs.AppFacade.getInstance():SendNotification(CS.NotiConst.MSGID_REDPOINT_RES);
+	end;
+	
+	SetData = function(self,data)
+		print("收到每日任务数据:"..data.asttasks.Count)
+		CS.UIManager.Ins:HideWaitting();
+		if data == nil then
+			return;
+		end
+		self:sortTaskList(data.asttasks);
+		local count = self.itemList.Count;
+		local dataCount = CS.TaskUtil.TodayTask.Count;
+		for i = 0,count-1,1 do
+			if i < dataCount then
+				self.itemList[i]:setData(CS.TaskUtil.TodayTask[i])
+			end
+		end
+	end;
+	
+
+	
+	Show = function(self,key,openParam,callBack)
+		base(self):Show(key,openParam,callBack)
+		self.facade:RegisterProxy(CS.TaskProxy());
+		self.facade:RegisterMediator(CS.TaskMediator(self));
+		self.facade:SendNotification(CS.NotiConst.TASK_LIST_REQ);
+		CS.UIManager.Ins:ShowWaitting();
+	end;
+	
+	Hide = function(self,isDestroy,callBack)
+		base(self):Hide(isDestroy,callBack)
+		self.facade:RemoveProxy(CS.TaskProxy.NAME);
+		self.facade:RegisterMediator(CS.TaskMediator.NAME);
+	end;
+	
+	Dispose = function(self)
+		base(self):Dispose();
+		self.Destroy(self.gameObject);
+	end;
+	
+	OnBtnEventsClick = function(btn)
+		CS.UIManager.Ins:Show(CS.NotiConst.M_EventsWindow);
+		self:Hide();
+	end;
+	
+	
+},
+{
+	sortTaskList = function(self,tasklist)
+		local count = tasklist.Count;
+		CS.TaskUtil.TodayTask:Clear();
+		for i = 0,count-1,1 do 
+			if tasklist[i].itaskState == 1 then
+				tasklist[i].itaskState = -1;
+			end
+		end
+		tasklist:Sort(CS.TaskUtil.SortCompare);
+		CS.TaskUtil.TodayTask = tasklist;
+	end;
+}
+
+)
+
+xlua.hotfix(CS.RechargeWindow, 'Show', function(self)
+	base(self):Show(key,openParam,callBack)
+	self.facade:RegisterProxy(CS.RechargeProxy());
+	self.facade:RegisterMediator(CS.RechargeMediator(self));
+	self:RequestRechargeInfo();
+	self:OpenRechargePanel(CS.RechargeWindow.OpenRechargeType.Exclusive);
+	self.facade:SendNotification(CS.NotiConst.MSGID_COMMON_POPUP_OPEN_EVENT);
+	CS.AudioManager.Ins:play("zb_recharge");    
+	-- 临时补丁
+	--local exclusiveFG = self.transform:Find("exclusiveBtn/FG"):GetComponent("UITexture");
+	local exclusiveFG = self.transform:Find("exclusiveBtn/FG"):GetComponent(typeof(CS.UITexture));
+	local exclusiveBG = self.transform:Find("exclusiveBtn/BG"):GetComponent("UITexture");
+	exclusiveFG.mainTexture = CS.SyncLoadManager.Ins:LoadImage("configimgres","exclusive0");
+	exclusiveBG.mainTexture = CS.SyncLoadManager.Ins:LoadImage("configimgres","exclusive1");
+end)
+
+xlua.hotfix(CS.ExclusiveItem, 'WechatBtnOnClicl', function(self)
+	CS.UniClipboard.SetText(self.data.wechatUrl)
+	CS.UIManager.Ins:ShowAlert("复制成功")
+	CS.UnityEngine.Application.OpenURL("weixin://")
+end)
+
+xlua.hotfix(CS.ExclusiveItem, 'Show', function(self)
+	if self.data == nile then
+		return;
+	end
+	self.skipUrl = self.data.skipUrl.."&usrid="..CS.AccountUtil.UserID.."&t="..CS.DateTimeHelper.GetTimeStamp(true);
+	print("拼接后："..self.skipUrl);
+	self.gameObject:SetActive(true);
+	self.name.text = self.data.nickname;
+	self.rechargeTxt.text = self.skipUrl;
+	self.wechatTxt.text = self.data.wechatUrl;
+	-- 临时补丁
+	local weixinIcon = self.transform:Find("qqImage"):GetComponent("UITexture");
+	weixinIcon.mainTexture = CS.SyncLoadManager.Ins:LoadImage("configimgres","weixinIcon");
+end)
+
+
