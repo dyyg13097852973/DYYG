@@ -31,7 +31,7 @@
 		"assetBundleRootURLGlobal":["https://alhkoss1.oss-accelerate.aliyuncs.com/NewTaoJin/","https://alhkoss1.oss-accelerate.aliyuncs.com/NewTaoJin/"],
 			"chatWebUrl":"https://us.365webcall.com/chat/chatwin3.aspx?settings=mw7mPmXN0m660060z3Am66wwIIz3Am66ww07z3AX6mmm7&memberid={0}&name={1}&phone={2}",
 		"reg_api_url":"https://api001.dyyg999.com/Api/user/Register",
-		"ServerCallBack":"http://43.243.131.223:9090/CoupleBack",
+		"ServerCallBack":"https://api001.dyyg999.com/playerfeedback/send",
 		"payUrl":"https://pay01.kg01.cc/Payment/hengtong/createPayment?paymentId=1&uid="
 	}
 	
